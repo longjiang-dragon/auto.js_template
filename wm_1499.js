@@ -18,16 +18,27 @@ while(!priceView){
    
 }
 
-console.error("已找到入口,待待抢购!!!!")
+console.error("已找到入口,等待抢购!!!!")
 
 let endTime =new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), 9).getTime();
 
 
 
 let interval=setInterval(() => {
-    if(new Date().getTime()+200 > endTime){
+    if(new Date().getTime()+700 > endTime){
         priceView.click();
         clearInterval(interval)
     }
+}, 50);
 
+
+//自动点击抢购
+setTimeout(() => {
+    let  goBuy=text("立即抢购").findOne(10*1000);  
+    if(goBuy){
+        goBuy.click();
+    }  else{
+        log("未找到入口....")
+    }
 }, 100);
+
