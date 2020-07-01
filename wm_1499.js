@@ -34,7 +34,7 @@ let interval=setInterval(() => {
 
 //自动点击抢购
 setTimeout(() => {
-    let  goBuy=text("立即抢购").findOne(10*1000);  
+    let  goBuy=text("立即抢购").untilFind();  
     if(goBuy){
         goBuy.click();
     }  else{
