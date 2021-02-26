@@ -9,16 +9,13 @@ auto.setWindowFilter(function(window){
 
 
 console.log("-------------开始执行------------------" )
-id('b4r').click(); 
+id('b4r').click();
 sleep(1000)
 
 // 查找最后一条消息,并长按
 let children=id("an3").findOne().children();
 children[children.length-2]
-.findOne(className("android.widget.LinearLayout")
-.depth(13))
-.findOne(className('android.view.View'))
-.longClick();
+.findOne(className("android.widget.LinearLayout").depth(13)).findOne(className('android.view.View')).longClick();
 
 
 
@@ -27,7 +24,7 @@ sleep(1000)
 click('发送给朋友',0);
 sleep(1000)
 click("多选",0)
-sleep(100)
+sleep(1000)
 
 
 
@@ -36,7 +33,7 @@ id('fa4').find().forEach(child=>{
     if(child){
         let bounds=child.bounds();
         click(bounds.centerX(),bounds.centerY());
-         sleep(100);
+         sleep(500);
     }
 })
 
