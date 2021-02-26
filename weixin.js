@@ -15,7 +15,10 @@ sleep(1000)
 // 查找最后一条消息,并长按
 let children=id("an3").findOne().children();
 children[children.length-2]
-.findOne(className("android.widget.LinearLayout").depth(13)).findOne(className('android.view.View')).longClick();
+.findOne(className("android.widget.LinearLayout")
+.depth(13))
+.findOne(className('android.view.View'))
+.longClick();
 
 
 
