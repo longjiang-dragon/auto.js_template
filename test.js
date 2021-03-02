@@ -1,0 +1,1 @@
+console.log("bbb====",!!text("霜").findOne())

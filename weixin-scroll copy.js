@@ -8,7 +8,7 @@ let isLastPage = false
 //滚动到已经点击过的
 for (let i = 0; i < pageNum * SELECT_COUNT; i++) {
 //第次滚动1个item
-  swipe(200, 2000, 200, 2000 - 170, 500)
+  console.log("result====",swipe(200, 2000, 200, 2000 - 170, 500) );
 }
 
 sleep(2000)
@@ -29,6 +29,8 @@ pageNum++
 // sleep(1000)
 // back()
 //}
+
+
 
 //单个item 高是 170
 //swipe(200,500,200,330,1000)
