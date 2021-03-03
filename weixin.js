@@ -18,13 +18,14 @@ let isEnd = false
 let pageNum = 0
 
 //每一页数量
-const SELECT_COUNT = 8
-const IS_END_TAG='IS_END_TAG'
+const SELECT_COUNT = 9
+const IS_END_TAG = 'IS_END_TAG'
 
 //下一次选中的item
 let nextBatchItemText = null
 
 while (!isEnd) {
+  //log(dateFtt('yyyy-MM-dd hh:mm:ss', new Date()))
   // 查找最后一条消息,并长按
   let children = id('euo').find()
   children[children.length - 1].longClick()
@@ -38,21 +39,19 @@ while (!isEnd) {
   click(936 + 20, 75 + 20)
   sleep(1000)
 
-
-
   for (let i = 0; i < pageNum * SELECT_COUNT; i++) {
     //每次滚动1个item
-    swipe(200, 2000, 200, 2000 - (i===0?450:195), 100)
+    swipe(200, 2000, 200, 2000 - (i === 0 ? 450 : 195), 80)
   }
 
 //选中需要发送的用户
   let forwardChildren = id('emw').find()
 
   //判断是否已到最后一个item
-  isEnd=judgeEndItem(forwardChildren,nextBatchItemText);
-  if (isEnd) continue ;
+  isEnd = judgeEndItem(forwardChildren, nextBatchItemText)
+  if (isEnd) continue
 
-  let reverseArr=generateReverseArr(forwardChildren,nextBatchItemText);
+  let reverseArr = generateReverseArr(forwardChildren, nextBatchItemText)
   for (let i = 0; i < reverseArr.length; i++) {
     let child = reverseArr[i]
     let itemText = child.child(0).getText().toString()
@@ -62,71 +61,70 @@ while (!isEnd) {
   }
   //更新下一次开始的item
   nextBatchItemText = getNextBatchItemText(forwardChildren)
-  console.log("下一次批量时开始的文本=====", nextBatchItemText)
-
+  console.log('下一次批量时开始的标识=====', nextBatchItemText)
 
   //发送群发消息
-  textStartsWith('确定').findOne().click();
-  sleep(1000);
-  id('bpc').findOne().click();
+  textStartsWith('确定').findOne().click()
+  sleep(500)
+  id('bpc').findOne().click()
+  //log(dateFtt('yyyy-MM-dd hh:mm:ss', new Date()))
 
-
-
-  pageNum++;
+  pageNum++
   back()
   sleep(500)
 }
-back();
+back()
 sleep(500)
-back();
- 
+back()
 
 /**
  * 获取下一次批量发送时，需要找的第一个元素
  */
 function getNextBatchItemText (children, lastSelectItemText) {
-  let resultArr=[];
+  let resultArr = []
 
-  let currentSelectedItemCount=0;
+  let currentSelectedItemCount = 0
 
-  for (let i = findStartIndex(children, nextBatchItemText); i < children.length; i++) {
-    if (currentSelectedItemCount >= SELECT_COUNT+1) continue
+  for (let i = findStartIndex(children, nextBatchItemText); i <
+  children.length; i++) {
+    if (currentSelectedItemCount >= SELECT_COUNT + 1) continue
     let child = children[i]
     let itemText = child.child(0).getText().toString()
     if (child && itemText !== '从通讯录选择') {
       ++currentSelectedItemCount
-      resultArr.push(child);
+      resultArr.push(child)
     }
   }
 
-  if (resultArr.length>SELECT_COUNT){
-    return resultArr[SELECT_COUNT].child(0).getText().toString();
+  if (resultArr.length > SELECT_COUNT) {
+    return resultArr[SELECT_COUNT].child(0).getText().toString()
   }
-  return IS_END_TAG;
+  return IS_END_TAG
 }
 
 function generateReverseArr (children, nextBatchItemText) {
-  let resultArr=[];
-  let currentSelectedItemCount=0;
+  let resultArr = []
+  let currentSelectedItemCount = 0
 
-  for (let i = findStartIndex(children, nextBatchItemText); i < children.length; i++) {
+  for (let i = findStartIndex(children, nextBatchItemText); i <
+  children.length; i++) {
     if (currentSelectedItemCount >= SELECT_COUNT) continue
     let child = children[i]
     let itemText = child.child(0).getText().toString()
     if (child && itemText !== '从通讯录选择') {
       ++currentSelectedItemCount
-      resultArr.push(child);
+      resultArr.push(child)
     }
   }
-  return resultArr.reverse();
+  return resultArr.reverse()
 }
 
-function judgeEndItem(children,nextBatchItemText){
-  if (!nextBatchItemText) return false;
+function judgeEndItem (children, nextBatchItemText) {
+  if (!nextBatchItemText) return false
   // 没有子节点或者子节点===1 （默认有一个通讯录选择）
-  if (!children || children.length === 1) return true;
-  if (nextBatchItemText === IS_END_TAG)return true;
-  return false;
+  if (!children || children.length === 1) return true
+  if (nextBatchItemText === IS_END_TAG) return true
+  return false
 }
 
 function findStartIndex (children, startBatchItemText) {
@@ -135,7 +133,7 @@ function findStartIndex (children, startBatchItemText) {
     return child.child(0).getText().toString() === startBatchItemText
   })
   console.log('result======', result, startBatchItemText)
-  return result === -1 ? 0 : result;
+  return result === -1 ? 0 : result
 }
 
 console.log('-----------end------------')
@@ -153,4 +151,26 @@ console.log('-----------end------------')
 // 获取微信item
 //id('b4r').click();
 //console.log("aaa",id('b4r').parent)
+
+//时间格式化批处理
+function dateFtt (fmt, date) {
+  var o = {
+    'M+': date.getMonth() + 1,                 //月份
+    'd+': date.getDate(),                    //日
+    'h+': date.getHours(),                   //小时
+    'm+': date.getMinutes(),                 //分
+    's+': date.getSeconds(),                 //秒
+    'q+': Math.floor((date.getMonth() + 3) / 3), //季度
+    'S': date.getMilliseconds(),             //毫秒
+  }
+  if (/(y+)/.test(fmt))
+    fmt = fmt.replace(RegExp.$1,
+      (date.getFullYear() + '').substr(4 - RegExp.$1.length))
+  for (var k in o)
+    if (new RegExp('(' + k + ')').test(fmt))
+      fmt = fmt.replace(RegExp.$1,
+        (RegExp.$1.length == 1) ? (o[k]) : (('00' + o[k]).substr(
+          ('' + o[k]).length)))
+  return fmt
+}
 
