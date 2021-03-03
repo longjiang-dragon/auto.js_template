@@ -17,7 +17,7 @@ let isEnd = false
 //当前第几页
 let pageNum = 0
 
-//第一页数量
+//每一页数量
 const SELECT_COUNT = 9
 
 //上一次选中的item
@@ -51,21 +51,19 @@ while (!isEnd) {
   isEnd=judgeEndItem(forwardChildren,lastSelectItemText);
   if (isEnd) continue ;
 
-  let currentSelectedItemCount=0;
   //本次遍历选中item的text
   let currentSelectItemText='';
-  for (let i = findLastSelectIndex(forwardChildren, lastSelectItemText); i < forwardChildren.length; i++) {
-    if (currentSelectedItemCount >= 9) continue;
-    let child = forwardChildren[i]
+
+  let reverseArr=generateReverseArr(forwardChildren,lastSelectItemText);
+  for (let i = 0; i < reverseArr.length; i++) {
+    let child = reverseArr[i]
     let itemText = child.child(0).getText().toString()
-    if (child && itemText !== '从通讯录选择') {
-      ++currentSelectedItemCount
+    if (i === 0) {
       currentSelectItemText = itemText
-      let bounds = child.bounds()
-      console.log('当前点击的item 文字', itemText)
-      click(bounds.centerX(), bounds.centerY())
-      sleep(10)
     }
+    let bounds = child.bounds()
+    click(bounds.centerX(), bounds.centerY())
+    sleep(10)
   }
   //更新最后一次选中的文本
   lastSelectItemText = currentSelectItemText
@@ -74,6 +72,22 @@ while (!isEnd) {
   back()
   sleep(1000)
 
+}
+
+function generateReverseArr (children, lastSelectItemText) {
+  let resultArr=[];
+  let currentSelectedItemCount=0;
+
+  for (let i = findLastSelectIndex(children, lastSelectItemText); i < children.length; i++) {
+    if (currentSelectedItemCount >= SELECT_COUNT) continue
+    let child = children[i]
+    let itemText = child.child(0).getText().toString()
+    if (child && itemText !== '从通讯录选择') {
+      ++currentSelectedItemCount
+      resultArr.push(child);
+    }
+  }
+  return resultArr.reverse();
 }
 
 function judgeEndItem(children,lastSelectItemText){
