@@ -58,7 +58,7 @@ while (!isEnd) {
     let itemText = child.child(0).getText().toString()
     let bounds = child.bounds()
     click(bounds.centerX(), bounds.centerY())
-    sleep(500)
+    sleep(10)
   }
   //更新下一次开始的item
   nextBatchItemText = getNextBatchItemText(forwardChildren)
@@ -74,8 +74,12 @@ while (!isEnd) {
 
   pageNum++;
   back()
-  sleep(1000)
+  sleep(500)
 }
+back();
+sleep(500)
+back();
+ 
 
 /**
  * 获取下一次批量发送时，需要找的第一个元素
