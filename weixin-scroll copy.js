@@ -2,7 +2,7 @@ sleep(2000)
 
 const SELECT_COUNT = 9
 //当前第几页
-let pageNum = 2
+let pageNum = 3
 //是否是最后一页
 let isLastPage = false
 //滚动到已经点击过的
@@ -29,6 +29,7 @@ pageNum++
 // sleep(1000)
 // back()
 //}
+
 
 
 
