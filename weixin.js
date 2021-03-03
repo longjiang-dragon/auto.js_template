@@ -18,10 +18,11 @@ let isEnd = false
 let pageNum = 0
 
 //每一页数量
-const SELECT_COUNT = 9
+const SELECT_COUNT = 8
+const IS_END_TAG='IS_END_TAG'
 
-//上一次选中的item
-let lastSelectItemText = null
+//下一次选中的item
+let nextBatchItemText = null
 
 while (!isEnd) {
   // 查找最后一条消息,并长按
@@ -48,37 +49,63 @@ while (!isEnd) {
   let forwardChildren = id('emw').find()
 
   //判断是否已到最后一个item
-  isEnd=judgeEndItem(forwardChildren,lastSelectItemText);
+  isEnd=judgeEndItem(forwardChildren,nextBatchItemText);
   if (isEnd) continue ;
 
-  //本次遍历选中item的text
-  let currentSelectItemText='';
-
-  let reverseArr=generateReverseArr(forwardChildren,lastSelectItemText);
+  let reverseArr=generateReverseArr(forwardChildren,nextBatchItemText);
   for (let i = 0; i < reverseArr.length; i++) {
     let child = reverseArr[i]
     let itemText = child.child(0).getText().toString()
-    if (i === 0) {
-      currentSelectItemText = itemText
-    }
     let bounds = child.bounds()
     click(bounds.centerX(), bounds.centerY())
-    sleep(10)
+    sleep(500)
   }
-  //更新最后一次选中的文本
-  lastSelectItemText = currentSelectItemText
-  console.log("最后一次选中的文本=====", lastSelectItemText)
+  //更新下一次开始的item
+  nextBatchItemText = getNextBatchItemText(forwardChildren)
+  console.log("下一次批量时开始的文本=====", nextBatchItemText)
+
+
+  //发送群发消息
+  textStartsWith('确定').findOne().click();
+  sleep(1000);
+  id('bpc').findOne().click();
+
+
+
   pageNum++;
   back()
   sleep(1000)
-
 }
 
-function generateReverseArr (children, lastSelectItemText) {
+/**
+ * 获取下一次批量发送时，需要找的第一个元素
+ */
+function getNextBatchItemText (children, lastSelectItemText) {
+  let resultArr=[];
+
+  let currentSelectedItemCount=0;
+
+  for (let i = findStartIndex(children, nextBatchItemText); i < children.length; i++) {
+    if (currentSelectedItemCount >= SELECT_COUNT+1) continue
+    let child = children[i]
+    let itemText = child.child(0).getText().toString()
+    if (child && itemText !== '从通讯录选择') {
+      ++currentSelectedItemCount
+      resultArr.push(child);
+    }
+  }
+
+  if (resultArr.length>SELECT_COUNT){
+    return resultArr[SELECT_COUNT].child(0).getText().toString();
+  }
+  return IS_END_TAG;
+}
+
+function generateReverseArr (children, nextBatchItemText) {
   let resultArr=[];
   let currentSelectedItemCount=0;
 
-  for (let i = findLastSelectIndex(children, lastSelectItemText); i < children.length; i++) {
+  for (let i = findStartIndex(children, nextBatchItemText); i < children.length; i++) {
     if (currentSelectedItemCount >= SELECT_COUNT) continue
     let child = children[i]
     let itemText = child.child(0).getText().toString()
@@ -90,21 +117,21 @@ function generateReverseArr (children, lastSelectItemText) {
   return resultArr.reverse();
 }
 
-function judgeEndItem(children,lastSelectItemText){
-  if (!lastSelectItemText) return false;
+function judgeEndItem(children,nextBatchItemText){
+  if (!nextBatchItemText) return false;
   // 没有子节点或者子节点===1 （默认有一个通讯录选择）
-  if (!children || children.length === 1) return true
-  if (children[children.length-1].child(0).getText().toString() === lastSelectItemText) return true;
+  if (!children || children.length === 1) return true;
+  if (nextBatchItemText === IS_END_TAG)return true;
   return false;
 }
 
-function findLastSelectIndex (children, lastSelectItemText) {
-  if (!lastSelectItemText) return 0
+function findStartIndex (children, startBatchItemText) {
+  if (!startBatchItemText) return 0
   let result = children.findIndex(child => {
-    return child.child(0).getText().toString() === lastSelectItemText
+    return child.child(0).getText().toString() === startBatchItemText
   })
-  console.log('result======', result, lastSelectItemText)
-  return result === -1 ? 0 : result+1;
+  console.log('result======', result, startBatchItemText)
+  return result === -1 ? 0 : result;
 }
 
 console.log('-----------end------------')
