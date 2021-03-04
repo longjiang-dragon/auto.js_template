@@ -1,4 +1,6 @@
 'auto'
+//添加无障碍权限
+auto.waitFor();
 app.launchApp('企业微信')
 
 auto.setWindowFilter(function (window) {
@@ -82,7 +84,7 @@ if (confirmStart) {
     back()
     sleep(500)
   }
-  
+
   endTimestamp = new Date().getTime()
   back()
   sleep(500)

@@ -1,6 +1,8 @@
 'auto';
 'ui';
 
+auto.waitFor()
+
 auto.setWindowFilter(function (window) {
   //不管是如何窗口，都返回true，表示在该窗口中搜索
   return true
