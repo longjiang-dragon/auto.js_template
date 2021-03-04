@@ -21,6 +21,8 @@ let nextBatchItemText = null
 let startTimestamp
 //任务结束时间
 let endTimestamp
+//总共选中数量
+let totalCount = 0
 
 let confirmStart = confirm('确认开始批量任务?')
 
@@ -29,8 +31,8 @@ if (confirmStart) {
   id('en5').findOne().parent().parent().click()
   sleep(1000)
 
+  startTimestamp = new Date().getTime()
   while (!isEnd) {
-    //startTimestamp=new Data();
     //log(dateFtt('yyyy-MM-dd hh:mm:ss', new Date()))
     // 查找最后一条消息,并长按
     let children = id('euo').find()
@@ -63,6 +65,7 @@ if (confirmStart) {
       let itemText = child.child(0).getText().toString()
       let bounds = child.bounds()
       click(bounds.centerX(), bounds.centerY())
+      totalCount++
       sleep(10)
     }
     //更新下一次开始的item
@@ -79,10 +82,12 @@ if (confirmStart) {
     back()
     sleep(500)
   }
-
+  
+  endTimestamp = new Date().getTime()
   back()
   sleep(500)
   back()
+  confirm('本次共转发' + totalCount + '条，共计用时' + Number((endTimestamp - startTimestamp) / 1000/60).toFixed(2) +'分钟')
 
   console.log('-------------执行完成------------------')
 
@@ -143,7 +148,6 @@ function findStartIndex (children, startBatchItemText) {
   let result = children.findIndex(child => {
     return child.child(0).getText().toString() === startBatchItemText
   })
-  console.log('result======', result, startBatchItemText)
   return result === -1 ? 0 : result
 }
 

@@ -7,11 +7,7 @@ auto.setWindowFilter(function (window) {
 })
 
 
-let confirmStart=confirm('确认开始批量任务?')
-if(!confirm){
-  //不执行任务
-  return;
-}
+console.log("aaa====",new Date().getTime() )
 
 
 // textStartsWith('确定').findOne().click();
