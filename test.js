@@ -1,13 +1,22 @@
-'auto'
+'auto';
+'ui';
 
 auto.setWindowFilter(function (window) {
   //不管是如何窗口，都返回true，表示在该窗口中搜索
   return true
 })
 
-textStartsWith('确定').findOne().click();
-sleep(1000);
-id('bpc').findOne().click();
+
+let confirmStart=confirm('确认开始批量任务?')
+if(!confirm){
+  //不执行任务
+  return;
+}
+
+
+// textStartsWith('确定').findOne().click();
+// sleep(1000);
+// id('bpc').findOne().click();
 
 
 
