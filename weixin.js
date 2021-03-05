@@ -39,17 +39,18 @@ if (confirmStart) {
     // 查找最后一条消息,并长按
     findLastMessage().longClick();
 
+    // 点击发送给朋友
     sleep(1000)
     click('转发', 0)
 
     //切换为多选
     sleep(1000)
-    id('iga').findOne().click();
+    click(936 + 20, 75 + 20)
     sleep(1000)
 
     for (let i = 0; i < pageNum * SELECT_COUNT; i++) {
       //每次滚动1个item
-      swipe(200, 2000, 200, 2000 - (i === 0 ? 450 : 183), 80)
+      swipe(200, 2000, 200, 2000 - (i === 0 ? 450 : 195), 80)
     }
 
 //选中需要发送的用户
@@ -62,6 +63,7 @@ if (confirmStart) {
     let reverseArr = generateReverseArr(forwardChildren, nextBatchItemText)
     for (let i = 0; i < reverseArr.length; i++) {
       let child = reverseArr[i]
+      let itemText = child.child(0).getText().toString()
       let bounds = child.bounds()
       click(bounds.centerX(), bounds.centerY())
       totalCount++
