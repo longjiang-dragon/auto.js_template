@@ -44,7 +44,7 @@ if (confirmStart) {
 
     //切换为多选
     sleep(1000)
-    click(936 + 20, 75 + 20)
+    id('iga').findOne().click();
     sleep(1000)
 
     for (let i = 0; i < pageNum * SELECT_COUNT; i++) {
