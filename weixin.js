@@ -40,7 +40,6 @@ if (confirmStart) {
     let children = id('euo').find()
     children[children.length - 1].longClick()
 
-    // 点击发送给朋友
     sleep(1000)
     click('转发', 0)
 
@@ -51,7 +50,7 @@ if (confirmStart) {
 
     for (let i = 0; i < pageNum * SELECT_COUNT; i++) {
       //每次滚动1个item
-      swipe(200, 2000, 200, 2000 - (i === 0 ? 450 : 195), 80)
+      swipe(200, 2000, 200, 2000 - (i === 0 ? 450 : 183), 80)
     }
 
 //选中需要发送的用户
@@ -64,7 +63,6 @@ if (confirmStart) {
     let reverseArr = generateReverseArr(forwardChildren, nextBatchItemText)
     for (let i = 0; i < reverseArr.length; i++) {
       let child = reverseArr[i]
-      let itemText = child.child(0).getText().toString()
       let bounds = child.bounds()
       click(bounds.centerX(), bounds.centerY())
       totalCount++
@@ -75,9 +73,9 @@ if (confirmStart) {
     console.log('下一次批量开始的群组名=====', nextBatchItemText)
 
     //发送群发消息
-    textStartsWith('确定').findOne().click()
-    sleep(500)
-    id('bpc').findOne().click()
+    // textStartsWith('确定').findOne().click()
+    // sleep(500)
+    // id('bpc').findOne().click()
     //log(dateFtt('yyyy-MM-dd hh:mm:ss', new Date()))
 
     pageNum++
@@ -94,6 +92,8 @@ if (confirmStart) {
   console.log('-------------执行完成------------------')
 
 }
+
+
 
 /**
  * 获取下一次批量发送时，需要找的第一个元素
