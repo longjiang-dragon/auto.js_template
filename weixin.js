@@ -37,8 +37,7 @@ if (confirmStart) {
   while (!isEnd) {
     //log(dateFtt('yyyy-MM-dd hh:mm:ss', new Date()))
     // 查找最后一条消息,并长按
-    let children = id('euo').find()
-    children[children.length - 1].longClick()
+    findLastMessage().longClick();
 
     sleep(1000)
     click('转发', 0)
@@ -73,9 +72,9 @@ if (confirmStart) {
     console.log('下一次批量开始的群组名=====', nextBatchItemText)
 
     //发送群发消息
-    // textStartsWith('确定').findOne().click()
-    // sleep(500)
-    // id('bpc').findOne().click()
+    textStartsWith('确定').findOne().click()
+    sleep(500)
+    id('bpc').findOne().click()
     //log(dateFtt('yyyy-MM-dd hh:mm:ss', new Date()))
 
     pageNum++
@@ -91,6 +90,29 @@ if (confirmStart) {
 
   console.log('-------------执行完成------------------')
 
+}
+
+function findLastMessage () {
+  let textLastView = findLastViewById('euo');
+  let imgLastView = findLastViewById('fxz');
+  let lastView = textLastView
+  if (getViewBottom(lastView) < getViewBottom(imgLastView)) {
+    lastView = imgLastView
+  }
+  return lastView;
+}
+
+function getViewBottom (view) {
+  if (!view) return 0
+  return view.bounds().bottom
+}
+
+function findLastViewById (idString) {
+  let list = id(idString).find()
+  if (!list || list.length === 0) {
+    return null
+  }
+  return list[list.length - 1]
 }
 
 
