@@ -50,7 +50,7 @@ if (confirmStart) {
 
     for (let i = 0; i < pageNum * SELECT_COUNT; i++) {
       //每次滚动1个item
-      swipe(200, 2000, 200, 2000 - (i === 0 ? 450 : 195), 80)
+      swipe(200, 2000, 200, 2000 - (i === 0 ? 450 : 198), 80)
     }
 
 //选中需要发送的用户
