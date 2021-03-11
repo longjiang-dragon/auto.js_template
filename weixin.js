@@ -95,6 +95,7 @@ if (confirmStart) {
 }
 
 function findLastMessage () {
+  // euo:文字;fxz:图片;ewu:直播
   const shareMessageIds = ['euo', 'fxz', 'ewu']
   let lastView
   shareMessageIds.forEach(text => {
