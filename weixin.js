@@ -1,6 +1,6 @@
 'auto'
 //添加无障碍权限
-auto.waitFor();
+auto.waitFor()
 app.launchApp('企业微信')
 
 auto.setWindowFilter(function (window) {
@@ -37,7 +37,7 @@ if (confirmStart) {
   while (!isEnd) {
     //log(dateFtt('yyyy-MM-dd hh:mm:ss', new Date()))
     // 查找最后一条消息,并长按
-    findLastMessage().longClick();
+    findLastMessage().longClick()
 
     // 点击发送给朋友
     sleep(1000)
@@ -95,13 +95,15 @@ if (confirmStart) {
 }
 
 function findLastMessage () {
-  let textLastView = findLastViewById('euo');
-  let imgLastView = findLastViewById('fxz');
-  let lastView = textLastView
-  if (getViewBottom(lastView) < getViewBottom(imgLastView)) {
-    lastView = imgLastView
-  }
-  return lastView;
+  const shareMessageIds = ['euo', 'fxz', 'ewu']
+  let lastView
+  shareMessageIds.forEach(text => {
+    let tempView = findLastViewById(text)
+    if (!lastView || getViewBottom(lastView) < getViewBottom(tempView)) {
+      lastView = tempView
+    }
+  })
+  return lastView
 }
 
 function getViewBottom (view) {
@@ -116,8 +118,6 @@ function findLastViewById (idString) {
   }
   return list[list.length - 1]
 }
-
-
 
 /**
  * 获取下一次批量发送时，需要找的第一个元素
