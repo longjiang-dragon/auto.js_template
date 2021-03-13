@@ -7,7 +7,7 @@ let currentDate = new Date()
 console.warn(
   '抢购时间：' + currentDate.getFullYear() + '年' + currentDate.getMonth() + '月' +
   currentDate.getDate() + '日9点')
-const CLICK_DELAY_TIME = 200
+const CLICK_DELAY_TIME = 100
 
 let lastTime = new Date().getTime()
 let startTime = getStartTime()
@@ -31,8 +31,7 @@ function startTask () {
 
 function getStartTime () {
   let current = new Date()
-  return new Date(current.getFullYear(), current.getMonth(), current.getDate(),
-    9, 59, 59, 500).getTime()
+  return new Date(current.getFullYear(), current.getMonth(), current.getDate(),9, 59, 59, 900).getTime()
 }
 
 // while(!priceView){
