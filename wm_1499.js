@@ -31,7 +31,7 @@ function startTask () {
 
 function getStartTime () {
   let current = new Date()
-  return new Date(current.getFullYear(), current.getMonth(), current.getDate(),9, 59, 59, 900).getTime()
+  return new Date(current.getFullYear(), current.getMonth(), current.getDate(),8, 59, 59, 900).getTime()
 }
 
 // while(!priceView){
