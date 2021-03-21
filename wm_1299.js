@@ -2,8 +2,9 @@
 // log(titleView);
 // let  priceView=text("1499.00").findOne();
 
-
-
+'auto'
+//添加无障碍权限
+auto.waitFor()
 console.show();
 let currentDate=new Date();
 console.warn("抢购时间："+currentDate.getFullYear()+"年"+currentDate.getMonth()+"月"+ currentDate.getDate()+"日9点")

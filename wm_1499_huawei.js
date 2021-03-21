@@ -8,6 +8,7 @@ console.show()
 auto.waitFor()
 app.launchApp('多点')
 
+
 let currentDate = new Date()
 console.warn(
   '抢购时间：' + currentDate.getFullYear() + '年' + currentDate.getMonth() + '月' +
@@ -36,7 +37,7 @@ function startTask () {
 
 function getStartTime () {
   let current = new Date()
-  return new Date(current.getFullYear(), current.getMonth(), current.getDate(),8, 59, 59, 400).getTime()
+  return new Date(current.getFullYear(), current.getMonth(), current.getDate(),9, 0, 0, 800).getTime()
 }
 
 // while(!priceView){

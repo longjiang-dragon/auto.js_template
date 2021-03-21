@@ -11,6 +11,7 @@ auto.setWindowFilter(function (window) {
 
 console.log("aaa====",new Date().getTime() )
 
+click('立即抢购', 2)
 
 // textStartsWith('确定').findOne().click();
 // sleep(1000);
