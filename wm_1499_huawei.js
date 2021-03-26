@@ -8,20 +8,18 @@ console.show()
 auto.waitFor()
 app.launchApp('多点')
 
-
 let currentDate = new Date()
 console.warn(
   '抢购时间：' + currentDate.getFullYear() + '年' + currentDate.getMonth() + '月' +
   currentDate.getDate() + '日9点')
 const CLICK_DELAY_TIME = 100
 
-let lastTime = new Date().getTime()
 let startTime = getStartTime()
 judgeIsStart()
 
 function judgeIsStart () {
   setTimeout(() => {
-    if (new Date().getTime() > startTime) {
+    if (Date.now() > startTime) {
       startTask()
     } else {
       judgeIsStart()
@@ -37,7 +35,8 @@ function startTask () {
 
 function getStartTime () {
   let current = new Date()
-  return new Date(current.getFullYear(), current.getMonth(), current.getDate(),9, 0, 0, 800).getTime()
+  return new Date(current.getFullYear(), current.getMonth(), current.getDate(),
+    9, 0, 0, 800).getTime()
 }
 
 // while(!priceView){

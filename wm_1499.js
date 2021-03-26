@@ -14,13 +14,12 @@ console.warn(
   currentDate.getDate() + '日9点')
 const CLICK_DELAY_TIME = 100
 
-let lastTime = new Date().getTime()
 let startTime = getStartTime()
 judgeIsStart()
 
 function judgeIsStart () {
   setTimeout(() => {
-    if (new Date().getTime() > startTime) {
+    if (Date.now() > startTime) {
       startTask()
     } else {
       judgeIsStart()
