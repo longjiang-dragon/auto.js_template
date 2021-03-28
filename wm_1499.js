@@ -30,7 +30,10 @@ function judgeIsStart () {
 function startTask () {
   click('立即抢购', 2)
   text('预约抢购').findOne(100000).click()
-  text('确认下单').findOne(100000).click()
+  let createOrder=text('确认下单').findOne(100000);
+  while(true){
+    createOrder.enabled()&&createOrder.click();
+  }
 }
 
 function getStartTime () {

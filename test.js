@@ -9,7 +9,7 @@ auto.setWindowFilter(function (window) {
 })
 
 
-console.log("aaa====",new Date().getTime() )
+console.log("aaa====",text('确认下单').findOne(100000).enabled() )
 
 
 click('立即抢购', 2)
